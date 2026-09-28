@@ -1,0 +1,22 @@
+# Environments
+.env
+.venv
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Data files (optional, uncomment if you want to ignore data files)
+# *.csv
+# *.xlsx
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
