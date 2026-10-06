@@ -35,7 +35,7 @@ def get_output_files():
 
 def main():
     st.set_page_config(
-        page_title="Excel Analyst Agent",
+        page_title="SheetPT",
         page_icon="📊",
         layout="wide",
         initial_sidebar_state="expanded",
@@ -68,7 +68,7 @@ def main():
             st.caption("No generated files in `outputs/` yet.")
 
     # Main Area
-    st.title("📊 Excel Analyst Agent")
+    st.title("📊 SheetPT")
     st.markdown(
         "Upload your datasets, describe your analysis or modifications in natural language, "
         "and watch the agent generate, execute, and self-heal Python code in the **MCP Server**."

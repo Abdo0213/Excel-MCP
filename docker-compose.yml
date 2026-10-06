@@ -1,0 +1,10 @@
+services:
+  sheetmind:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file: .env
+    volumes:
+      - ./inputs:/app/inputs
+      - ./outputs:/app/outputs
+    restart: unless-stopped

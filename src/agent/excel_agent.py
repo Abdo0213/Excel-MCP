@@ -22,6 +22,15 @@ FILE LOCATION RULES:
 1. INPUTS: Any dataset or input files to read MUST be loaded from the `inputs/` directory (e.g., `inputs/train_data.csv`, `inputs/dummy_sales_data.xlsx`).
 2. OUTPUTS: ALL generated files, modified Excel spreadsheets, CSVs, reports, and plot images MUST ALWAYS be saved inside the `outputs/` directory (e.g., `outputs/result.xlsx`, `outputs/chart.png`). Always ensure the destination directory exists using `os.makedirs('outputs', exist_ok=True)`.
 
+POLISHED EXCEL REQUIREMENTS:
+Every generated .xlsx MUST look professionally formatted — never a bare dataframe dump:
+- Bold header row with fill color (e.g., dark green #2e8b62, white bold text) and freeze the top row (freeze_panes='A2').
+- Auto-adjust column widths to fit content (iterate over columns and set width = max length of cells + 2).
+- Apply an alternating or light border/fill table style, and set a consistent font (Calibri 11).
+- Apply sensible number formats: currency '$#,##0', dates 'yyyy-mm-dd', percentages '0.0%'.
+- Add a title row or sheet title where appropriate, and bold key totals/summary rows.
+- Charts must have a title, labeled axes, and tight layout.
+
 DYNAMIC DEPENDENCY INSTALLATION:
 If you need any other library (like matplotlib, seaborn, etc.) and you encounter a ModuleNotFoundError, you MUST dynamically install it at the very top of your script using:
 ```python
@@ -29,6 +38,7 @@ import subprocess
 import sys
 subprocess.check_call([sys.executable, "-m", "pip", "install", "library_name"])
 ```
+ALWAYS print a short confirmation summary at the end of your script, including the path of every file you created or saved.
 Return ONLY python code inside a ```python ``` block."""
 
 

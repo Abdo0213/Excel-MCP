@@ -1,7 +1,7 @@
 # System Architecture & Design
 
 ## Overview
-The **Excel Analyst Agent** is an agentic AI system designed to understand natural language instructions, generate executable Python code for Excel/Data manipulation, and execute that code in an isolated MCP (Model Context Protocol) Server environment with autonomous self-healing capabilities.
+**SheetPT** is an agentic AI system designed to understand natural language instructions, generate executable Python code for Excel/Data manipulation, and execute that code in an isolated MCP (Model Context Protocol) Server environment with autonomous self-healing capabilities.
 
 ---
 
@@ -29,7 +29,12 @@ The **Excel Analyst Agent** is an agentic AI system designed to understand natur
 ├── src/                      # Source code root
 │   ├── __init__.py
 │   ├── config.py             # Pydantic Settings & Environment schema
-│   ├── app.py                # App entrypoint
+│   ├── app.py                # Streamlit app entrypoint (fallback)
+│   ├── api.py                # FastAPI backend (web UI + SSE API)
+│   ├── static/               # HTML/CSS/JS frontend
+│   │   ├── index.html
+│   │   ├── styles.css
+│   │   └── app.js
 │   ├── cli_agent.py          # Standalone CLI Agent runner
 │   ├── agent/                # Core Agent package (LLM & retry logic)
 │   │   ├── __init__.py
@@ -60,7 +65,7 @@ graph TD
     classDef cloudNode fill:#e2e3e5,stroke:#41464b,stroke-width:1px;
 
     User(["User"]):::userNode
-    StreamlitUI["Frontend UI (src/frontend/app.py)"]:::uiNode
+    WebUI["Web Frontend (src/static, served by src/api.py)"]:::uiNode
     CLI["CLI Agent (src/cli_agent.py)"]:::uiNode
     AgentCore["Agent Core (src/agent/excel_agent.py)"]:::agentNode
     OllamaCloud[("Ollama Cloud API")]:::cloudNode
@@ -71,9 +76,9 @@ graph TD
         OutputsDir[("outputs/")]:::internalNode
     end
     
-    User -->|Web Prompt| StreamlitUI
+    User -->|Web Prompt| WebUI
     User -->|CLI Command| CLI
-    StreamlitUI --> AgentCore
+    WebUI --> AgentCore
     CLI --> AgentCore
     AgentCore -->|1. Generate Code| OllamaCloud
     OllamaCloud -.->|2. Return Python Script| AgentCore
@@ -83,7 +88,7 @@ graph TD
     SingleTool -.->|6. Stdout / Execution Log| AgentCore
     
     AgentCore -.->|7. Self-Correction Loop on Error| OllamaCloud
-    AgentCore -->|8. Stream Step Events| StreamlitUI
+    AgentCore -->|8. Stream Step Events (SSE)| WebUI
     AgentCore -->|8. Stream Step Events| CLI
 ```
 
@@ -95,9 +100,10 @@ graph TD
 - Holds all agentic orchestration, LLM calling, system prompting, regex code extraction, and dynamic self-healing retry logic.
 - Yields step-by-step events for real-time visualization in both UI and CLI.
 
-### 2. `src/frontend/app.py`
-- Modular Streamlit frontend completely decoupled from agent business logic.
-- Displays dynamic retry attempts, code preview expanders, error logs, and dataset explorers.
+### 2. `src/api.py` + `src/static/`
+- FastAPI backend serving the HTML/CSS/JS frontend and streaming agent events over SSE.
+- Displays live attempt timeline, syntax-highlighted code, error logs, and dataset explorers.
+- A Streamlit fallback UI remains available at `src/frontend/app.py`.
 
 ### 3. `src/cli_agent.py`
 - Structured command-line tool allowing execution without running the web browser.

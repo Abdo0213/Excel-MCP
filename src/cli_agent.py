@@ -1,4 +1,4 @@
-"""CLI interface for running the Excel Analyst Agent without the Streamlit UI."""
+"""CLI interface for running the SheetPT without the Streamlit UI."""
 import os
 import sys
 import argparse
@@ -21,7 +21,7 @@ except ImportError:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Excel Analyst Agent CLI")
+    parser = argparse.ArgumentParser(description="SheetPT CLI")
     parser.add_argument(
         "--prompt",
         "-p",

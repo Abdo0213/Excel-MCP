@@ -21,7 +21,7 @@ pip install -r requirements.txt
 Configure your `.env` file in the project root:
 
 ```env
-OLLAMA_MODEL=llama3.1
+OLLAMA_MODEL=gpt-oss:120b
 OLLAMA_API_KEY=your_ollama_api_key_here
 OLLAMA_BASE_URL=https://ollama.com/v1
 ```
@@ -30,13 +30,19 @@ OLLAMA_BASE_URL=https://ollama.com/v1
 
 ## 3. Running the Application
 
-### Option A: Streamlit Web UI (Frontend)
-Run the isolated Streamlit frontend:
+### Option A: Web UI (Default)
+Run the FastAPI server:
 
-```powershell
-python -m streamlit run src/frontend/app.py
+```bash
+uvicorn src.api:app --host 0.0.0.0 --port 8000
 ```
-*(Or `python -m streamlit run src/app.py`)*
+
+Open `http://localhost:8000` in your browser.
+
+### Option A2: Streamlit Web UI (Fallback)
+```bash
+python -m streamlit run src/app.py
+```
 
 Open `http://localhost:8501` in your browser.
 
@@ -51,6 +57,6 @@ python src/cli_agent.py --prompt "Read inputs/train_data.csv and calculate avera
 
 ## 4. Working with Inputs and Outputs
 
-- **File Upload via UI**: You can upload `.csv`, `.xlsx`, `.xls`, `.json`, or `.parquet` files directly from the Streamlit UI. They are saved automatically to `inputs/` and a 5-row preview is shown.
+- **File Upload via UI**: You can upload `.csv`, `.xlsx`, `.xls`, `.json`, or `.parquet` files directly from the web UI (the `+` button next to the composer). They are saved automatically to `inputs/` and a 5-row preview is shown.
 - **Input Datasets (`inputs/`)**: All datasets uploaded or manually placed in `inputs/` can be directly referenced in user prompts (e.g., `inputs/my_data.csv`).
 - **Generated Outputs (`outputs/`)**: All generated spreadsheets, charts, and EDA reports are automatically written into `outputs/` by the agent.
