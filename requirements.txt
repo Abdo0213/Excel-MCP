@@ -1,7 +1,9 @@
 mcp>=1.0.0
 fastmcp>=0.4.0
-openai
-pandas
-openpyxl
-python-dotenv
-streamlit
+openai>=1.0.0
+pandas>=2.0.0
+openpyxl>=3.1.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+python-dotenv>=1.0.0
+streamlit>=1.30.0
