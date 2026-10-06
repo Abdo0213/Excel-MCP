@@ -61,16 +61,16 @@ graph TD
     classDef internalNode fill:#fff3cd,stroke:#664d03,stroke-width:1px;
     classDef cloudNode fill:#e2e3e5,stroke:#41464b,stroke-width:1px;
 
-    User((User)):::userNode
-    StreamlitUI[Frontend UI\nsrc/frontend/app.py]:::uiNode
-    CLI[CLI Agent\nsrc/cli_agent.py]:::uiNode
-    AgentCore[Agent Core\nsrc/agent/excel_agent.py]:::agentNode
-    OllamaCloud[(Ollama Cloud API)]:::cloudNode
+    User(["User"]):::userNode
+    StreamlitUI["Frontend UI (src/frontend/app.py)"]:::uiNode
+    CLI["CLI Agent (src/cli_agent.py)"]:::uiNode
+    AgentCore["Agent Core (src/agent/excel_agent.py)"]:::agentNode
+    OllamaCloud[("Ollama Cloud API")]:::cloudNode
     
-    subgraph MCP_Server [MCP Server Environment (src/mcp_server)]
-        SingleTool{Tool: execute_excel_code}:::mcpNode
-        InputsDir[(inputs/)]:::internalNode
-        OutputsDir[(outputs/)]:::internalNode
+    subgraph MCP_Server ["MCP Server Environment (src/mcp_server)"]
+        SingleTool{"Tool: execute_excel_code"}:::mcpNode
+        InputsDir[("inputs/")]:::internalNode
+        OutputsDir[("outputs/")]:::internalNode
     end
     
     User -->|Web Prompt| StreamlitUI
